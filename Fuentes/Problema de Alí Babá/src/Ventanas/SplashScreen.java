@@ -1,0 +1,236 @@
+/*
+ //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SISTEMA : ALIBABÁ Y LOS CIENTO UN MIL LADRONES
+//MODULO : SplashScreen
+//PROCESO : Introducción
+//DESCRIPCION : El código indica el tiempo en el que se presenta el Splash
+//ANALISTAS : Ing. Mauro Rosas
+//PROGRAMADOR : Saúl Alpala, Doménica Erazo, Samantha Jara
+//FECHA CREACION, MODIFICACION:23 de agosto 2020, 20 de septiembre 2020
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+ */
+package Ventanas;
+
+import com.sun.awt.AWTUtilities;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.LinearGradientPaint;
+import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
+import java.awt.geom.RoundRectangle2D;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+import javax.swing.plaf.basic.BasicProgressBarUI;
+
+
+public class SplashScreen extends javax.swing.JFrame {
+
+    public static long getTi() {
+        return ti;
+    }
+
+    public static void setTi(long ti) {
+        SplashScreen.ti = ti;
+    }
+
+    public static long getTf() {
+        return tf;
+    }
+
+    public static void setTf(long tf) {
+        SplashScreen.tf = tf;
+    }
+
+    public static long getTiempo() {
+        return tiempo;
+    }
+
+    public static void setTiempo(long tiempo) {
+        SplashScreen.tiempo = tiempo;
+    }
+    static long ti;
+    static long tf;
+    static long tiempo;
+
+   
+    Timer t = null;
+    static boolean isPlay = true;
+    
+    ActionListener ac;
+    int x = 0;
+    
+    public SplashScreen() {
+        initComponents();
+        
+       
+        
+        setIconImage(new ImageIcon(this.getClass().getResource("/imagenes/icono.png")).getImage());
+        barraDeProgreso.setOpaque(false);
+        barraDeProgreso.setUI(new BasicProgressBarUI() {
+            @Override
+            protected void paintDeterminate(Graphics g, JComponent c) {
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                int ancho = barraDeProgreso.getWidth();
+                int alto = barraDeProgreso.getHeight();
+                int espacioAncho = ancho;
+                int espacioAlto = alto;
+                double porcentajeProgress = barraDeProgreso.getPercentComplete();
+                espacioAncho = (int) (espacioAncho * porcentajeProgress);
+                Point2D inicio = new Point2D.Double(6, 6);
+                Point2D fin = new Point2D.Double(6, 6 + espacioAlto);
+                float[] posicionGradiente = {0.0f, 1.0f};
+                Color[] colores = {Color.WHITE, Color.ORANGE};
+                LinearGradientPaint gradiente = new LinearGradientPaint(inicio, fin, posicionGradiente, colores);
+                g2d.setPaint(gradiente);
+                RoundRectangle2D dibujarProgress = new RoundRectangle2D.Double(5, 5, espacioAncho - 10, espacioAlto - 10, espacioAlto - 10, espacioAlto);                
+                g2d.fill(dibujarProgress);
+                g2d.setColor(Color.black);
+                RoundRectangle2D borde = new RoundRectangle2D.Double(5, 5, ancho - 10, alto - 10, espacioAlto + 10, espacioAlto);
+                ImageIcon ladrones = new ImageIcon(this.getClass().getResource("/imagenes/ladrones.png"));
+                g2d.drawImage(ladrones.getImage(), espacioAncho,1, null);
+             //   g2d.drawImage(img.getImage(), espacioAncho, 1, null);
+                
+            }
+            
+        });
+        
+        ac = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                x = x + 1;
+                barraDeProgreso.setValue(x);
+            }
+        };
+        
+        t = new Timer(30, ac);
+        t.start();
+        ti = System.currentTimeMillis();
+        
+        setLocationRelativeTo(this);
+        
+        ((JPanel) getContentPane()).setOpaque(false);
+        ImageIcon uno = new ImageIcon(this.getClass().getResource("/imagenes/fondo1.png"));
+        JLabel fondo = new JLabel();
+        Icon icono = new ImageIcon(uno.getImage().getScaledInstance(700, 500, Image.SCALE_DEFAULT));
+        fondo.setIcon(icono);
+        getLayeredPane().add(fondo, JLayeredPane.FRAME_CONTENT_LAYER);
+        fondo.setBounds(0, 0, icono.getIconWidth(), icono.getIconHeight());
+        
+        AWTUtilities.setWindowOpaque(this, false);
+        
+        
+        
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jLabel1 = new javax.swing.JLabel();
+        barraDeProgreso = new javax.swing.JProgressBar();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+        setResizable(false);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cofre.png"))); // NOI18N
+
+        barraDeProgreso.setBackground(new java.awt.Color(255, 255, 255));
+        barraDeProgreso.setForeground(new java.awt.Color(204, 153, 0));
+        barraDeProgreso.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                barraDeProgresoStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(39, Short.MAX_VALUE)
+                .addComponent(barraDeProgreso, javax.swing.GroupLayout.PREFERRED_SIZE, 594, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(379, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(barraDeProgreso, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(148, 148, 148))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void barraDeProgresoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_barraDeProgresoStateChanged
+if (barraDeProgreso.getValue() == 100) {
+    TerminosCondiciones pe= new TerminosCondiciones();
+    pe.setVisible(true);
+    this.dispose();
+        } 
+    }//GEN-LAST:event_barraDeProgresoStateChanged
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(SplashScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(SplashScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(SplashScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(SplashScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> {
+            new SplashScreen().setVisible(true);
+        });
+       
+    }
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JProgressBar barraDeProgreso;
+    private javax.swing.JLabel jLabel1;
+    // End of variables declaration//GEN-END:variables
+
+}
